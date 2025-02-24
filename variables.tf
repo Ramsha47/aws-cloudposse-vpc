@@ -1,14 +1,17 @@
+variable "aws_region" {
+  description = "Terraform deployment region"
+}
+
+variable "availability_zones" {
+  description = "Availability Zones to use in the operating region"
+}
+
 variable "vpc01_name" {
   description = "VPC Name"
 }
 
 variable "vpc01_cidr" {
   description = "Full VPC Network CIDR"
-}
-
-variable "availability_zones" {
-  description = "List of subnet availability zones."
-  type        = list(string)
 }
 
 variable "vpc01_public_cidr_az01" {
@@ -35,10 +38,8 @@ variable "vpc01_private_cidr_az03" {
   description = "CIDRs for private subnets in AZ03"
 }
 
-variable "tags" {
-  description = "Tags to apply to all VPC resources."
-  default     = {}
-  type        = map(any)
+variable "vpc01_data_cidr_az03" {
+  description = "CIDRs for data subnets in AZ03"
 }
 
 variable "common_tags" {
