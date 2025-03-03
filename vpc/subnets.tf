@@ -1,6 +1,22 @@
+# Define locals to dynamically gather CIDRs
+locals {
+  public_cidrs = [
+    var.vpc01_public_cidr_az01,
+    var.vpc01_public_cidr_az02,
+    var.vpc01_public_cidr_az03,
+  ]
+
+  private_cidrs = [
+    var.vpc01_private_cidr_az01,
+    var.vpc01_private_cidr_az02,
+    var.vpc01_private_cidr_az03,
+  ]
+}
+
+# Dynamic Subnets Module
 module "dynamic_subnets" {
   source  = "cloudposse/dynamic-subnets/aws"
-  version = "2.0.0" # Adjust this based on the latest version
+  version = "2.0.0"  # Consider upgrading to a newer version if needed
 
   name               = var.vpc01_name
   vpc_id             = module.vpc01.vpc_id
@@ -10,16 +26,14 @@ module "dynamic_subnets" {
 
   ipv4_cidrs = [
     {
-      public  = [var.vpc01_public_cidr_az01, var.vpc01_public_cidr_az02, var.vpc01_public_cidr_az03]
-      private = [var.vpc01_private_cidr_az01, var.vpc01_private_cidr_az02, var.vpc01_private_cidr_az03]
+      public  = local.public_cidrs
+      private = local.private_cidrs
     }
   ]
 
   # Define subnet mappings
   private_subnets_enabled = true
   public_subnets_enabled  = true
-  
-
   nat_gateway_enabled     = true  # Set to false if you don't need NAT
 
   additional_tag_map = {
