@@ -41,6 +41,11 @@ variable "common_tags" {
   type        = map(any)
 }
 
+variable "flowlog_traffic_type" {
+  description = "Type of flowlog traffic to capture.  Valid values - ACCEPT, REJECT, ALL."
+  default     = "ALL"
+  type        = string
+}
 variable "availability_zones" {
   description = "List of subnet availability zones."
   type        = list(string)
